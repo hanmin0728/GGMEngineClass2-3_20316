@@ -145,5 +145,6 @@ public class Ch : MonoBehaviour
             Debug.Log("Ãæµ¹");
             obstacleRigidbody.useGravity = true;
         }
+    
     }
 }

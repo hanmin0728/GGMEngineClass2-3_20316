@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GROUND
   - obs
+  - obsUP
   layers:
   - Default
   - TransparentFX
