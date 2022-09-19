@@ -13,7 +13,7 @@ public class stateIdle : State<MonsterFSM>
 
     public override void OnAwake()
     {
-        animator = stateMachineClass.GetComponent<Animator>();
+        animator = stateMachineClass.GetComponentInChildren<Animator>();
         characterController = stateMachineClass.GetComponent<CharacterController>();
     }
     public override void OnStart()

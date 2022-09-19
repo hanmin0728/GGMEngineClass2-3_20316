@@ -27,7 +27,6 @@ public class MonsterFSM : MonoBehaviour
     private void Update()
     {
         fsmManager.Update(Time.deltaTime); //Ω√∞£πŸ≤„º≠ ¡‡∫∏±‚  
-        Debug.Log("A");
     }
     public Transform SearchEnemy()
     {
@@ -41,6 +40,11 @@ public class MonsterFSM : MonoBehaviour
         }
 
         return target;
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, eyeSight);
     }
     public bool getFlagAtk
     {

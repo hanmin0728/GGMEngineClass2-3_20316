@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class State<T>
+public abstract class State<T> 
 {
-    protected StateMachine<T> stateMachine; //상태들을 관리하는 애이고 타입에 따라 바뀜
+    protected StateMachine<T> stateMachine; //상태들을 관리하는 애, 타입에 따라 바뀜
     protected T stateMachineClass;
 
     public State() { } //생성자
@@ -65,7 +65,7 @@ public sealed class StateMachine<T> //sealed 내꺼 고치지마 부모꺼를 재정의 하지�
         nowState.OnUpdate(deltaTime);
     }
 
-    public Q ChangeState<Q>() where Q : State<T> //state<T>만 상속받을 수 있다
+    public Q ChangeState<Q>() where Q : State<T>    
     {
         var newType = typeof(Q);
 

@@ -15,7 +15,7 @@ public class stateMove : State<MonsterFSM>
     private NavMeshAgent nav;
     public override void OnAwake()
     {
-        animator = stateMachineClass.GetComponent<Animator>();
+        animator = stateMachineClass.GetComponentInChildren<Animator>();
         characterController = stateMachineClass.GetComponent<CharacterController>();
         nav = stateMachineClass.GetComponent<NavMeshAgent>();
     }
@@ -31,7 +31,10 @@ public class stateMove : State<MonsterFSM>
         if (target)
         {
             nav.SetDestination(stateMachineClass.target.position);
-
+            if (stateMachineClass.getFlagAtk)
+            {
+                stateMachine.ChangeState<stateAtk>();
+            }
             if (nav.remainingDistance > nav.stoppingDistance)
             {
                 characterController.Move(nav.velocity * Time.deltaTime);

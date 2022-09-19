@@ -10,11 +10,12 @@ public class stateAtk : State<MonsterFSM>
 
     public override void OnAwake()
     {
-        animator = stateMachineClass.GetComponent<Animator>();
+        animator = stateMachineClass.GetComponentInChildren<Animator>();
     }
 
     public override void OnStart()
     {
+        Debug.Log("╬Нец");
         if (stateMachineClass.getFlagAtk)
         {
             animator?.SetTrigger(hashAttack);
