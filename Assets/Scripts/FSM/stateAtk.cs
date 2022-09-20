@@ -26,10 +26,13 @@ public class stateAtk : State<MonsterFSM>
         }
     } 
 
-    public override void OnUpdate(float deltaTime) { }
+    public override void OnUpdate(float deltaTime) 
+    {
+        
+    }
 
     public override void OnEnd()
     {
-        base.OnEnd();
+
     }
 }

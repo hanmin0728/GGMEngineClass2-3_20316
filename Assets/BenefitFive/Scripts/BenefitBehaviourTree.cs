@@ -18,7 +18,7 @@ public class BenefitBehaviourTree : StateMachineBehaviour
     {
         if (animator.IsInTransition(0) && animator.GetCurrentAnimatorStateInfo(0).fullPathHash == stateInfo.fullPathHash)
         {
-            Debug.Log("base");
+            //Debug.Log("base");
             animator.SetInteger("Idle_id", -1);
         }
 

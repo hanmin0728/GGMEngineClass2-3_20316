@@ -21,7 +21,7 @@ public class stateMove : State<MonsterFSM>
     }
     public override void OnStart()
     {
-        nav?.SetDestination(stateMachineClass.target.position);
+        nav?.SetDestination(stateMachineClass._target.position);
         animator?.SetBool(hashMove, true);
     }
 
@@ -30,7 +30,7 @@ public class stateMove : State<MonsterFSM>
         Transform target = stateMachineClass.SearchEnemy();
         if (target)
         {
-            nav.SetDestination(stateMachineClass.target.position);
+            nav.SetDestination(stateMachineClass._target.position);
             if (stateMachineClass.getFlagAtk)
             {
                 stateMachine.ChangeState<stateAtk>();
@@ -42,7 +42,10 @@ public class stateMove : State<MonsterFSM>
                 return;
             }
             
-            stateMachine.ChangeState<stateIdle>();
+        }
+        else
+        {
+          stateMachine.ChangeState<stateIdle>();
         }
     }
 

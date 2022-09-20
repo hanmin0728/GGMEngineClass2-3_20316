@@ -41,6 +41,7 @@ public class stateIdle : State<MonsterFSM>
                 stateMachine.ChangeState<stateMove>();
             }
         }
+      
     }
     public override void OnEnd() { }
 
