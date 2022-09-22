@@ -4,69 +4,83 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
+
     [Header("Sight Elements")]
-    public float eyeRadius = 5f;
+    public float _eyeRadius = 5f;
+
     [Range(0, 360)]
-    public float eyeAngle = 90f;
+    public float _eyeAngle = 90f;
 
     [Header("Search Elements")]
-    public float delayFindTime = 0.2f;
+    public float _delayFindTime = 0.2f;
 
-    public LayerMask targetLayerMask;
-    public LayerMask blocktLayerMask;
+    public LayerMask _targetLayerMask;
+    public LayerMask _blockLayerMask;
 
-    private List<Transform> targetLists = new List<Transform>();
-    private Transform firstTarget;
-    private float distanceTarget = 0f;
+    private List<Transform> _targetList = new List<Transform>();
+    private Transform _firstTarget;
 
-    public List<Transform> TargetLists => targetLists;
-    public Transform FirstTarget => firstTarget;
-    public float DistanceTarget => distanceTarget;  
+    private float _distanceTarget = 0f;
+
+
+    public List<Transform> TargetLists => _targetList;
+    public Transform FirstTarget => _firstTarget;
+    public float DistanceTarget => _distanceTarget;
+
 
     private void Start()
     {
-        StartCoroutine("UpdateFindTargets", delayFindTime);
+        StartCoroutine(UpdateFindTargets(_delayFindTime));
     }
-    IEnumerator UpdateFindTargets(float delay)
+
+    private IEnumerator UpdateFindTargets(float delay)
     {
-        yield return new WaitForSeconds(delay);
-        FindTargets();
+        while (true)
+        {
+            yield return new WaitForSeconds(delay);
+            FindTargets();
+        }
     }
-    void FindTargets()
+
+
+    private void FindTargets()
     {
+        _distanceTarget = 0f;
+        _firstTarget = null;
+        _targetList.Clear();
 
-        distanceTarget = 0.0f;
-        firstTarget = null;
-        targetLists.Clear();
+        Collider[] overlapSphereTargets
+            = Physics.OverlapSphere(transform.position, _eyeRadius, _targetLayerMask);
 
-        Collider[] overlapSphereTargets = Physics.OverlapSphere(transform.position, eyeRadius, targetLayerMask);
-
-        for (int i = 0; i < overlapSphereTargets.Length; i++)
+        for (int i = 0; i < overlapSphereTargets.Length; ++i)
         {
             Transform target = overlapSphereTargets[i].transform;
-            Vector3 LookAtTarget = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, LookAtTarget) < eyeAngle / 2)
+            Vector3 lookatTarget = (target.position - transform.position).normalized;
+            if (Vector3.Angle(transform.forward, lookatTarget) < _eyeAngle / 2)
             {
                 float firstTargetDistance = Vector3.Distance(transform.position, target.position);
-                if (!Physics.Raycast(transform.position, LookAtTarget, firstTargetDistance, blocktLayerMask))
+
+                if (!Physics.Raycast(transform.position, lookatTarget, firstTargetDistance, _blockLayerMask))
                 {
-                    targetLists.Add(target);
-                    if (firstTarget == null || distanceTarget > firstTargetDistance)
+                    _targetList.Add(target);
+
+                    if (_firstTarget == null || _distanceTarget > firstTargetDistance)
                     {
-                        firstTarget = target;
-                        distanceTarget = firstTargetDistance;
+                        _firstTarget = target;
+                        _distanceTarget = firstTargetDistance;
                     }
                 }
             }
         }
     }
- 
-    public Vector3 getVecByAngle(float degrees, bool flagGloablAngle)
+
+    public Vector3 GetVecByAngle(float degrees, bool flagGlobalAngle)
     {
-        if (!flagGloablAngle)
+        if (!flagGlobalAngle)
         {
             degrees += transform.eulerAngles.y;
         }
-        return new Vector3(Mathf.Sin(degrees * Mathf.Deg2Rad), 0, Mathf.Cos(degrees * Mathf.Deg2Rad));
+        return new Vector3(Mathf.Sin(degrees * Mathf.Deg2Rad), 0f, Mathf.Cos(degrees * Mathf.Deg2Rad));
     }
+
 }

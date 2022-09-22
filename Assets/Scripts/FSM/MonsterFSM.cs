@@ -7,6 +7,10 @@ public class MonsterFSM : MonoBehaviour
     protected StateMachine<MonsterFSM> fsmManager;
     public StateMachine<MonsterFSM> FsmManager => fsmManager;
 
+    public Transform[] posTargets;
+    public Transform posTarget = null;
+
+    public int posTargetIdx = 0;
     //타겟 거리 체크를 위한 변수
     //public LayerMask targetLayerMask; //최적화를 위해 
     //public Transform target;
@@ -25,7 +29,10 @@ public class MonsterFSM : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        fsmManager = new StateMachine<MonsterFSM>(this, new stateIdle()); //콜싸인
+        fsmManager = new StateMachine<MonsterFSM>(this, new stateRoming()); //콜싸인
+        stateIdle stateIdle = new stateIdle();
+        stateIdle.isRomming = true;
+        fsmManager.AddStateList(stateIdle);
         fsmManager.AddStateList(new stateMove()); //관리자 목록 등혹
         fsmManager.AddStateList(new stateAtk());
 
@@ -35,7 +42,7 @@ public class MonsterFSM : MonoBehaviour
     private void Update()
     {
         fsmManager.Update(Time.deltaTime); //시간바꿔서 줘보기  
-        //Debug.Log(fsmManager.getNowState);
+        Debug.Log(fsmManager.getNowState);
     }
     public Transform SearchEnemy()
     {
@@ -72,5 +79,18 @@ public class MonsterFSM : MonoBehaviour
 
         //Gizmos.color = Color.blue;
         //Gizmos.DrawWireSphere(transform.position, atkRange);
+    }
+    public Transform SearchNextTargetPosition()
+    {
+        posTarget = null;
+
+        if (posTargets.Length > 0)
+        {
+            posTarget = posTargets[posTargetIdx];
+        }
+
+        posTargetIdx = (posTargetIdx + 1) % posTargets.Length;
+
+        return posTarget;
     }
 }

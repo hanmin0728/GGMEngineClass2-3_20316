@@ -11,6 +11,12 @@ public class stateIdle : State<MonsterFSM>
     protected int hashMove = Animator.StringToHash("Move");
     protected int hashMoveSpd = Animator.StringToHash("MoveSpd");
 
+    public bool isRomming = false;
+
+    private float minIdleTime = 0f;
+    private float maxIdleTime = 0f;
+    private float retIdleTime = 0f;
+
     public override void OnAwake()
     {
         animator = stateMachineClass.GetComponentInChildren<Animator>();
@@ -21,27 +27,31 @@ public class stateIdle : State<MonsterFSM>
         animator?.SetBool(hashMove, false);
         animator?.SetFloat(hashMoveSpd, 0);
         characterController?.Move(Vector3.zero);
+
+        if (isRomming)
+        {
+            retIdleTime = (Random.Range(minIdleTime, maxIdleTime));
+        }
     }
     public override void OnUpdate(float deltaTime)
     {
         Transform target = stateMachineClass.SearchEnemy();
+    
         if (target)
         {
             if (stateMachineClass.getFlagAtk)
             {
-
-                Debug.Log("C");
-
                 stateMachine.ChangeState<stateAtk>();
             }
             else
             {
-                Debug.Log("D");
-
                 stateMachine.ChangeState<stateMove>();
             }
         }
-      
+        else if (isRomming && stateMachine.getStateDurationTime > retIdleTime)
+        {
+            stateMachine.ChangeState<stateRoming>();
+        }
     }
     public override void OnEnd() { }
 

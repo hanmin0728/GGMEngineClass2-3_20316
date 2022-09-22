@@ -35,17 +35,21 @@ public class stateMove : State<MonsterFSM>
             {
                 stateMachine.ChangeState<stateAtk>();
             }
+            else
+            {
+                stateMachine.ChangeState<stateRoming>();
+            }
             if (nav.remainingDistance > nav.stoppingDistance)
             {
                 characterController.Move(nav.velocity * Time.deltaTime);
                 animator.SetFloat(hashMoveSpd, nav.velocity.magnitude / nav.speed, 0.1f, Time.deltaTime);
                 return;
             }
-            
+
         }
         else
         {
-          stateMachine.ChangeState<stateIdle>();
+            stateMachine.ChangeState<stateIdle>();
         }
     }
 
