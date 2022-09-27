@@ -12,8 +12,10 @@ public class FSMBehaviour : StateMachineBehaviour
     //{
     //    animator.transform.parent.GetComponent<stateAtkController>().EventStateAtkEnd();
     //}
+
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.parent.GetComponent<MonsterFSM>().FsmManager.ChangeState<stateIdle>();
+        animator.transform.parent.GetComponent<msFSM>().MSManager.ChangeState<stateIdle>();
+        //animator.transform.parent.GetComponent<MonsterFSM>().FsmManager.ChangeState<stateIdle>();
     }
 }

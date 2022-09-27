@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class stateRoming : State<MonsterFSM>
+public class stateRoming : State<msFSM>
 {
     private Animator animator;
 
@@ -11,7 +11,8 @@ public class stateRoming : State<MonsterFSM>
 
     private NavMeshAgent nav;
 
-    private MonsterFSM monsterFSM;
+    //private MonsterFSM monsterFSM;
+    private msFSM msfsm;
 
     protected int hashMove = Animator.StringToHash("Move");
     protected int hashMoveSpd = Animator.StringToHash("MoveSpd");
@@ -22,7 +23,8 @@ public class stateRoming : State<MonsterFSM>
         nav = stateMachineClass.GetComponent<NavMeshAgent>();
         characterController = stateMachineClass.GetComponent<CharacterController>();
 
-        monsterFSM = stateMachineClass as MonsterFSM;
+        //monsterFSM = stateMachineClass as MonsterFSM;
+        msfsm = stateMachineClass as msFSM;
     }
     public override void OnStart()
     {
@@ -39,13 +41,13 @@ public class stateRoming : State<MonsterFSM>
         }
 
         nav.stoppingDistance = 0f;
-        if (monsterFSM?.posTarget == null)
+        if (msfsm?.posTarget == null)
         {
-            monsterFSM?.SearchNextTargetPosition();
+            msfsm?.SearchNextTargetPosition();
         }
-        if (monsterFSM?.posTarget != null)
+        if (msfsm?.posTarget != null)
         {
-            Vector3 destination = monsterFSM.posTarget.position;
+            Vector3 destination = msfsm.posTarget.position;
             nav?.SetDestination(destination);
             animator?.SetBool(hashMove, true);
         }
@@ -53,7 +55,7 @@ public class stateRoming : State<MonsterFSM>
         
     public override void OnUpdate(float deltaTime)
     {
-        Transform target = stateMachineClass.SearchEnemy();
+        Transform target = stateMachineClass.SearchMonster();
         if (target)
         {
             if (stateMachineClass.getFlagAtk)
@@ -88,7 +90,7 @@ public class stateRoming : State<MonsterFSM>
     }
     private void SearchNextTargetPosition()
     {
-        Transform posTarget = monsterFSM.SearchNextTargetPosition();
+        Transform posTarget = msfsm.SearchNextTargetPosition();
         if (posTarget != null)
         {
             nav.SetDestination(posTarget.position);

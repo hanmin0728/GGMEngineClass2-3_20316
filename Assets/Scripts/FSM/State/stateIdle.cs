@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class stateIdle : State<MonsterFSM>
+public class stateIdle : State<msFSM>
 {
     private Animator animator;
 
@@ -35,7 +35,7 @@ public class stateIdle : State<MonsterFSM>
     }
     public override void OnUpdate(float deltaTime)
     {
-        Transform target = stateMachineClass.SearchEnemy();
+        Transform target = stateMachineClass.SearchMonster();
     
         if (target)
         {

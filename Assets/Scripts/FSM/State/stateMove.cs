@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class stateMove : State<MonsterFSM>
+public class stateMove : State<msFSM>
 {
     private Animator animator;
 
@@ -21,16 +21,16 @@ public class stateMove : State<MonsterFSM>
     }
     public override void OnStart()
     {
-        nav?.SetDestination(stateMachineClass._target.position);
+        nav?.SetDestination(stateMachineClass.target.position);
         animator?.SetBool(hashMove, true);
     }
 
     public override void OnUpdate(float deltaTime)
     {
-        Transform target = stateMachineClass.SearchEnemy();
+        Transform target = stateMachineClass.SearchMonster();
         if (target)
         {
-            nav.SetDestination(stateMachineClass._target.position);
+            nav.SetDestination(stateMachineClass.target .position);
             if (stateMachineClass.getFlagAtk)
             {
                 stateMachine.ChangeState<stateAtk>();

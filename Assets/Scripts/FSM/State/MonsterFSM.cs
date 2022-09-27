@@ -29,12 +29,12 @@ public class MonsterFSM : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        fsmManager = new StateMachine<MonsterFSM>(this, new stateRoming()); //콜싸인
+       // fsmManager = new StateMachine<MonsterFSM>(this, new stateRoming()); //콜싸인
         stateIdle stateIdle = new stateIdle();
         stateIdle.isRomming = true;
-        fsmManager.AddStateList(stateIdle);
-        fsmManager.AddStateList(new stateMove()); //관리자 목록 등혹
-        fsmManager.AddStateList(new stateAtk());
+        //fsmManager.AddStateList(stateIdle);
+        //fsmManager.AddStateList(new stateMove()); //관리자 목록 등혹
+        //fsmManager.AddStateList(new stateAtk());
 
         _fov = GetComponent<FieldOfView>();
     }
