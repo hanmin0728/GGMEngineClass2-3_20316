@@ -13,8 +13,8 @@ public class stateRoming : State<msFSM>
 
     //private MonsterFSM monsterFSM;
     private msFSM msfsm;
-
     protected int hashMove = Animator.StringToHash("Move");
+
     protected int hashMoveSpd = Animator.StringToHash("MoveSpd");
 
     public override void OnAwake()
